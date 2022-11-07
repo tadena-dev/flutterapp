@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:simpleapp1/pages/home_page.dart';
 import 'package:simpleapp1/pages/start_page.dart';
 import 'package:simpleapp1/utils/common.dart';
-// import 'package:simpleapp1/pages/home_page.dart';
-// import 'package:simpleapp1/pages/start_page.dart';
-// import 'package:simpleapp1/utils/common.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   await Supabase.initialize(
-    url: 'https://dunfrphhckjwvgmvunnf.supabase.co',
+    url: '',
     anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1bmZycGhoY2tqd3ZnbXZ1bm5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njc2MDU4MzcsImV4cCI6MTk4MzE4MTgzN30.nL5qwDx__v_U8oAAIdnVgk3lc7M096UQkk5EcygNK-g',
+        '',
   );
 
   runApp(const MyApp());
