@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mydiaryapp/pages/diary_page.dart';
 import 'package:mydiaryapp/utils/utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -39,6 +38,18 @@ class _HomePageState extends State<HomePage> {
     return result;
   }
 
+  Future<void> editDiary({
+    required final id,
+    required final title,
+    required final body,
+  }) async {
+    final result = await client
+        .from('diaries')
+        .update({'title_diary': title, 'body_diary': body}).eq('id', id);
+
+    return result;
+  }
+
   Future<void> deleteDiary({
     required final id,
   }) async {
@@ -70,6 +81,47 @@ class _HomePageState extends State<HomePage> {
     _titleController.dispose();
     _bodyController.dispose();
     super.dispose();
+  }
+
+  Future<void> _showDialog({
+    required BuildContext context,
+    void Function()? onTap,
+    required TextEditingController titleController,
+    required TextEditingController bodyController,
+  }) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Diary'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    hintText: 'Title',
+                  ),
+                ),
+                TextField(
+                  controller: bodyController,
+                  decoration: const InputDecoration(
+                    hintText: 'Body',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: onTap,
+              child: const Text('Done'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -148,7 +200,33 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   OutlinedButton(
                                     onPressed: () {
-                                      Navigator.pushNamed(context, '/diary');
+                                      _showDialog(
+                                        context: context,
+                                        titleController: _titleController,
+                                        bodyController: _bodyController,
+                                        onTap: () async {
+                                          editDiary(
+                                            id: diaries[index]['id'],
+                                            title: _titleController.text,
+                                            body: _bodyController.text,
+                                          );
+                                          _titleController.clear();
+                                          _bodyController.clear();
+                                          Navigator.pop(context);
+                                          setState(() {
+                                            _isLoading = true;
+                                          });
+                                          List<dynamic> value =
+                                              await getDiaries();
+                                          diaries.clear();
+                                          for (dynamic element in value) {
+                                            diaries.add(element);
+                                          }
+                                          setState(() {
+                                            _isLoading = false;
+                                          });
+                                        },
+                                      );
                                     },
                                     child: const Text('Edit'),
                                   ),
@@ -162,16 +240,28 @@ class _HomePageState extends State<HomePage> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Diary(
-            titleController: _titleController,
-            bodyController: _bodyController,
-            onTap: () {
-              addDiary(
-                title: _titleController.text,
-                body: _bodyController.text,
-              );
-            },
-          );
+          _showDialog(
+              context: context,
+              titleController: _titleController,
+              bodyController: _bodyController,
+              onTap: () async {
+                setState(() {
+                  _isLoading = true;
+                });
+                addDiary(
+                  title: _titleController.text,
+                  body: _bodyController.text,
+                );
+                Navigator.pop(context);
+                List<dynamic> value = await getDiaries();
+                diaries.clear();
+                for (dynamic element in value) {
+                  diaries.add(element);
+                }
+                setState(() {
+                  _isLoading = false;
+                });
+              });
         },
         child: const Icon(
           Icons.add,
