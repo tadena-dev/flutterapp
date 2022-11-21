@@ -34,7 +34,7 @@ class _SignUpPageState extends State<SignUpPage> {
         password: password,
       );
       if (mounted) {
-        Navigator.pushNamed(context, '/signin');
+        Navigator.pushNamed(context, '/');
         context.showErrorSnackBar('Confirm your account.');
       }
     } on AuthException catch (error) {
@@ -56,51 +56,76 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.grey),
+      ),
       body: Center(
         child: Form(
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please fill in Email';
-                  }
-                  return null;
-                },
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please fill in Email';
+                    }
+                    return null;
+                  },
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                  ),
+                  keyboardType: TextInputType.emailAddress,
                 ),
-                keyboardType: TextInputType.emailAddress,
               ),
-              TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please fill in Password';
-                  }
-                  return null;
-                },
-                controller: _passwordController,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please fill in Password';
+                    }
+                    return null;
+                  },
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                  ),
+                  obscureText: true,
                 ),
-                obscureText: true,
               ),
-              OutlinedButton(
-                onPressed: () {
-                  _isLoading
-                      ? null
-                      : _signUp(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        );
-                },
-                child: const Text('Sign-up'),
-              ),
+              _isLoading
+                  ? const SizedBox(
+                      child: CircularProgressIndicator(
+                        color: Colors.grey,
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: OutlinedButton(
+                        onPressed: () {
+                          final result = _signUp(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          );
+                          result.then((value) {
+                            _emailController.clear();
+                            _passwordController.clear();
+                          });
+                        },
+                        child: const Text(
+                          'Sign-up',
+                          style: TextStyle(
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),

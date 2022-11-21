@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mydiaryapp/pages/diary_page.dart';
 import 'package:mydiaryapp/pages/home_page.dart';
 import 'package:mydiaryapp/pages/signin_page.dart';
 import 'package:mydiaryapp/pages/signup_page.dart';
@@ -33,7 +32,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const StartPage(),
         '/home': (context) => const HomePage(),
-        '/diary': (context) => const DiaryPage(),
         '/signin': (context) => const SignInPage(),
         '/signup': (context) => const SignUpPage(),
       },
@@ -57,24 +55,43 @@ class _StartPageState extends State<StartPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Welcome',
-              style: TextStyle(
-                fontSize: 25,
+            const Padding(
+              padding: EdgeInsets.only(bottom: 40),
+              child: Text(
+                'Welcome',
+                style: TextStyle(
+                  fontSize: 25,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/signin');
-              },
-              child: const Text('Sign-in'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/signin');
+                },
+                child: const Text(
+                  'Sign-in',
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
             ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/signup');
-              },
-              child: const Text('Sign-up'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/signup');
+                },
+                child: const Text(
+                  'Sign-up',
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
