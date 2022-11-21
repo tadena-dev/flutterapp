@@ -115,6 +115,12 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: [
             TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
               onPressed: onTap,
               child: const Text('Done'),
             ),
@@ -128,18 +134,33 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        backgroundColor: Colors.grey,
+        leading: InkWell(
+          onTap: () {
+            client.auth.signOut();
+            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+          },
+          child: const Icon(Icons.logout),
+        ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.only(right: 15),
             child: InkWell(
-              onTap: () {
-                client.auth.signOut();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/', (route) => false);
+              onTap: () async {
+                setState(() {
+                  _isLoading = true;
+                });
+                List<dynamic> value = await getDiaries();
+                diaries.clear();
+                for (dynamic element in value) {
+                  diaries.add(element);
+                }
+                setState(() {
+                  _isLoading = false;
+                });
               },
               child: const Icon(
-                Icons.logout,
+                Icons.refresh,
               ),
             ),
           ),
@@ -147,7 +168,9 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _isLoading
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.grey,
+              ),
             )
           : ConstrainedBox(
               constraints: const BoxConstraints(),
@@ -160,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         return ExpansionTile(
                           childrenPadding: const EdgeInsets.only(
-                            top: 5,
+                            top: 10,
                             right: 20,
                             left: 20,
                             bottom: 10,
@@ -174,61 +197,81 @@ class _HomePageState extends State<HomePage> {
                               diaries[index]['body_diary'],
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.only(top: 15),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  OutlinedButton(
-                                    onPressed: () async {
-                                      setState(() {
-                                        _isLoading = true;
-                                      });
-                                      deleteDiary(
-                                        id: diaries[index]['id'],
-                                      );
-                                      List<dynamic> value = await getDiaries();
-                                      diaries.clear();
-                                      for (dynamic element in value) {
-                                        diaries.add(element);
-                                      }
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                    },
-                                    child: const Text('Delete'),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 5.0,
+                                    ),
+                                    child: OutlinedButton(
+                                      onPressed: () async {
+                                        setState(() {
+                                          _isLoading = true;
+                                        });
+                                        deleteDiary(
+                                          id: diaries[index]['id'],
+                                        );
+                                        List<dynamic> value =
+                                            await getDiaries();
+                                        diaries.clear();
+                                        for (dynamic element in value) {
+                                          diaries.add(element);
+                                        }
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                      },
+                                      child: const Text(
+                                        'Delete',
+                                        style: TextStyle(
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  OutlinedButton(
-                                    onPressed: () {
-                                      _showDialog(
-                                        context: context,
-                                        titleController: _titleController,
-                                        bodyController: _bodyController,
-                                        onTap: () async {
-                                          editDiary(
-                                            id: diaries[index]['id'],
-                                            title: _titleController.text,
-                                            body: _bodyController.text,
-                                          );
-                                          _titleController.clear();
-                                          _bodyController.clear();
-                                          Navigator.pop(context);
-                                          setState(() {
-                                            _isLoading = true;
-                                          });
-                                          List<dynamic> value =
-                                              await getDiaries();
-                                          diaries.clear();
-                                          for (dynamic element in value) {
-                                            diaries.add(element);
-                                          }
-                                          setState(() {
-                                            _isLoading = false;
-                                          });
-                                        },
-                                      );
-                                    },
-                                    child: const Text('Edit'),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 5.0,
+                                    ),
+                                    child: OutlinedButton(
+                                      onPressed: () {
+                                        _showDialog(
+                                          context: context,
+                                          titleController: _titleController,
+                                          bodyController: _bodyController,
+                                          onTap: () async {
+                                            editDiary(
+                                              id: diaries[index]['id'],
+                                              title: _titleController.text,
+                                              body: _bodyController.text,
+                                            );
+                                            _titleController.clear();
+                                            _bodyController.clear();
+                                            Navigator.pop(context);
+                                            setState(() {
+                                              _isLoading = true;
+                                            });
+                                            List<dynamic> value =
+                                                await getDiaries();
+                                            diaries.clear();
+                                            for (dynamic element in value) {
+                                              diaries.add(element);
+                                            }
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                          },
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Edit',
+                                        style: TextStyle(
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -239,6 +282,7 @@ class _HomePageState extends State<HomePage> {
                     ),
             ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.grey,
         onPressed: () {
           _showDialog(
               context: context,
@@ -252,6 +296,8 @@ class _HomePageState extends State<HomePage> {
                   title: _titleController.text,
                   body: _bodyController.text,
                 );
+                _titleController.clear();
+                _bodyController.clear();
                 Navigator.pop(context);
                 List<dynamic> value = await getDiaries();
                 diaries.clear();
