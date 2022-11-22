@@ -9,12 +9,15 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
+///initialize the
+///_isLoading, TextEditingController and _formKey
 class _SignUpPageState extends State<SignUpPage> {
   bool _isLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  ///[_signUp] a sign up functionality
   Future<void> _signUp({
     required final email,
     required final password,
@@ -28,6 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
       _isLoading = true;
     });
 
+    ///try catch block to catch the AuthException
     try {
       await client.auth.signUp(
         email: email,
@@ -46,6 +50,8 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
+  ///[dispose] ovirride this function to dispose
+  ///the addition controller
   @override
   void dispose() {
     _emailController.dispose();

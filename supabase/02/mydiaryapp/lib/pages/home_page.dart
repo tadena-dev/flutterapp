@@ -9,12 +9,17 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+///initialize
+///TextEditingController for title and body
+///_isLoading for loading
+///List diaries that will hold the date
 class _HomePageState extends State<HomePage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
   bool _isLoading = true;
   List<dynamic> diaries = [];
 
+  ///[getDiaries] it will get the diaries
   Future<List<dynamic>> getDiaries() async {
     final result = await client
         .from('diaries')
@@ -25,6 +30,7 @@ class _HomePageState extends State<HomePage> {
     return result;
   }
 
+  ///[addDiary] a function that add diary
   Future<void> addDiary({
     required final title,
     required final body,
@@ -38,6 +44,7 @@ class _HomePageState extends State<HomePage> {
     return result;
   }
 
+  ///[editDiary] a function that edit/update diary
   Future<void> editDiary({
     required final id,
     required final title,
@@ -50,6 +57,7 @@ class _HomePageState extends State<HomePage> {
     return result;
   }
 
+  ///[deleteDiary] function that will delete diary
   Future<void> deleteDiary({
     required final id,
   }) async {
@@ -60,6 +68,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  ///[initListFunc] initial the List of diaries
   Future<void> initListFunc() async {
     List<dynamic> value = await getDiaries();
     for (dynamic element in value) {

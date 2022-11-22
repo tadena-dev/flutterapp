@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+///Initialize a Supabase instance client called [client]
 final client = Supabase.instance.client;
 
+///[showErrorSnackBar] custom snackbar
 extension ShowSnackBar on BuildContext {
   void showErrorSnackBar(String text) {
     ScaffoldMessenger.of(this).showSnackBar(

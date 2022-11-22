@@ -5,9 +5,13 @@ import 'package:mydiaryapp/pages/signup_page.dart';
 import 'package:mydiaryapp/utils/utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() async {
+///[main] as Future and make it an async
+///In dart Future works really well with async
+Future<void> main() async {
+  ///This binding will ensure the initialization of Supabase
   WidgetsFlutterBinding.ensureInitialized();
 
+  ///Initialize the Supabase and supply with url and anonKey
   await Supabase.initialize(
     url: 'https://pasrxukztoktskfwvdcr.supabase.co',
     anonKey:
@@ -17,6 +21,8 @@ void main() async {
   runApp(const MyApp());
 }
 
+///initialRoutes
+///routes
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -39,6 +45,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
+///this stf widget will have
+///Text
+///Sign-in Button
+///Sign-up Button
+///it will navigate to its specify pages
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
 
