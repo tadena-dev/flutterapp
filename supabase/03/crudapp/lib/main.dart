@@ -5,17 +5,17 @@ import 'package:crudapp/pages/signin_page.dart';
 import 'package:crudapp/pages/signip_page.dart';
 import 'package:crudapp/utils/utils.dart';
 
-///[main] it will be a Future and async
+///[main] it will be an async
 ///In dart Future works really well with async
-Future<void> main() async {
+void main() async {
   ///Binding with widgetsflutterbingdings
   ///to ensure the initialization of supabase
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
-    url: 'https://xrkvenczpvcjpcqlqbew.supabase.co',
+    url: '',
     anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhya3ZlbmN6cHZjanBjcWxxYmV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjkwODA1MjEsImV4cCI6MTk4NDY1NjUyMX0.Q2G8NV2Zgv6lSPTa6T90RDctMvlvOncMEHQeXQCsNgk',
+        '',
   );
 
   runApp(const MyApp());
