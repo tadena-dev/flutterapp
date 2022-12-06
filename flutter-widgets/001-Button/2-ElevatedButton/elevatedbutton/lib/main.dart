@@ -152,7 +152,7 @@ class _MyWidgetState extends State<MyWidget> {
                     ),
                     onPressed: () {},
                     child: const Text(
-                      'TextButton',
+                      'ElevatedButton',
                       style: TextStyle(
                         color: Colors.black,
                       ),
