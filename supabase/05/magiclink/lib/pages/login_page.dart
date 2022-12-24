@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.brown,
                 ),
-                onPressed: () {},
+                onPressed: _isLoading ? null : _signIn,
                 child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
               ),
             ],
