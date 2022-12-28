@@ -87,6 +87,9 @@ class _AvatarState extends State<Avatar> {
             fit: BoxFit.cover,
           ),
         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.brown,
+          ),
           onPressed: () {
             _isLoading ? null : _upload();
           },

@@ -132,46 +132,103 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Avatar(
-              imageURL: _avatarUrl,
-              onUpload: _onUpload,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'User Name',
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 100),
+                child: Avatar(
+                  imageURL: _avatarUrl,
+                  onUpload: _onUpload,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              controller: _websiteController,
-              decoration: const InputDecoration(labelText: 'Website'),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: _updateProfile,
-              child: Text(_loading ? 'Saving...' : 'Update'),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextButton(
-              onPressed: _signOut,
-              child: const Text('Sign Out'),
-            ),
-          ],
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: _usernameController,
+                cursorColor: Colors.brown,
+                decoration: InputDecoration(
+                  labelText: 'User Name',
+                  labelStyle: const TextStyle(
+                    color: Colors.brown,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: const BorderSide(
+                      color: Colors.brown,
+                      width: 0.5,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: const BorderSide(
+                      color: Colors.brown,
+                      width: 0.5,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: _websiteController,
+                cursorColor: Colors.brown,
+                decoration: InputDecoration(
+                  labelText: 'Website',
+                  labelStyle: const TextStyle(
+                    color: Colors.brown,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: const BorderSide(
+                      color: Colors.brown,
+                      width: 0.5,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: const BorderSide(
+                      color: Colors.brown,
+                      width: 0.5,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.brown,
+                ),
+                onPressed: _updateProfile,
+                child: Text(_loading ? 'Saving...' : 'Update'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(
+                    color: Colors.brown,
+                  ),
+                ),
+                onPressed: _signOut,
+                child: const Text(
+                  'Sign Out',
+                  style: TextStyle(
+                    color: Colors.brown,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
