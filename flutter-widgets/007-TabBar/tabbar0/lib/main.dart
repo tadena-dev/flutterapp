@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tabbar0/tabbar/tabbar.dart';
+//import 'package:tabbar0/tabbar/tabbar.dart';
+import 'package:tabbar0/tabbar/tabbar0.dart';
 import 'package:tabbar0/theme/theme.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: customTheme,
-      home: const TabBarWidget(),
+      home: const TabBar0(),
     );
   }
 }
